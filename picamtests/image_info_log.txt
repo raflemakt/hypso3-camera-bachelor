@@ -1,0 +1,24 @@
+Frames: 10, Seconds: 6.69, FPS: 1.49, Mbps: 14.77
+At Resolution: (4056, 3040), Avg. filesize: 1235790.1, Mode: still
+Frames: 10, Seconds: 7.09, FPS: 1.41, Mbps: 14.05
+At Resolution: (4056, 3040), Avg. filesize: 1245632.1, Mode: still, Comment: 
+Frames: 1, Seconds: 2.86, FPS: 0.35, Mbps: 0.00
+At Resolution: (4056, 3040), Avg. filesize: 0.0, Mode: still, Comment: 
+Frames: 1, Seconds: 2.57, FPS: 0.39, Mbps: 0.00
+At Resolution: (4056, 3040), Avg. filesize: 0.0, Mode: still, Comment: 
+
+Frames: 1, Seconds: 1.39, FPS: 0.72, Mbps: 0.00
+At Resolution: (4056, 3040), Avg. filesize: 0.0, Mode: still, Comment: 
+
+Frames: 10, Seconds: 7.69, FPS: 1.30, Mbps: 11.38
+At Resolution: (4056, 3040), Avg. filesize: 1094183.8, Mode: still, Comment: 
+Frames: 10, Seconds: 6.88, FPS: 1.45, Mbps: 14.81
+At Resolution: (4056, 3040), Avg. filesize: 1274138.2, Mode: still, Comment: 
+Frames: 10, Seconds: 8.57, FPS: 1.17, Mbps: 11.61
+At Resolution: (4056, 3040), Avg. filesize: 1242703.3, Mode: still, Comment: 
+Frames: 10, Seconds: 6.90, FPS: 1.45, Mbps: 14.35
+At Resolution: (4056, 3040), Avg. filesize: 1236905.9, Mode: still, Comment: 
+Frames: 10, Seconds: 6.68, FPS: 1.50, Mbps: 14.74
+At Resolution: (4056, 3040), Avg. filesize: 1231184.6, Mode: still, Comment: 
+Frames: 10, Seconds: 6.94, FPS: 1.44, Mbps: 13.96
+At Resolution: (4056, 3040), Avg. filesize: 1210586.7, Mode: still, Comment: 
