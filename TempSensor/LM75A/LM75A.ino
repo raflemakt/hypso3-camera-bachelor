@@ -21,23 +21,16 @@ void setup() {
 
 void loop() {
    //spør om x antall bytes (2 i dette tilfellet)
-  Wire.requestFrom(tempAddress, 2);
+  Wire.requestFrom(tempAddress, (uint8_t)2);
 
-  //Leser av begge bytene, lsb kan bare være 0 eller 1
-  while(Wire.available() >= 2) {
-    byte msb = Wire.read();
-    byte lsb = Wire.read();
+  //Leser av begge bytene, gjør resultatet om til en float
+  while(Wire.available() >= 2){
+    uint8_t msb = Wire.read();
+    uint8_t lsb = Wire.read();
 
-    tempData = msb;
-    //Gjør data om til floats til senere
-    tempData_f = float(tempData);
-
-    //Legger til 0.5 hvis lsb er lik 1
-    if (lsb | "1000" == 1){
-      tempData_f += 0.5;
-    } else {
-      tempData_f = msb;
-    }
+    uint16_t tempData = msb << 8 | lsb;
+    float tempData_f = float(int16_t(tempData)) / 256.0f;
+  
     //printer ut all dataen
     Serial.print("Temperature data: ");
     Serial.print(tempData_f, 1);
