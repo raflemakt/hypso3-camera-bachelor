@@ -4,7 +4,7 @@ from picamera2 import Picamera2, Preview
 
 picam2 = Picamera2()
 
-preview_config = picam2.create_preview_configuration(raw={"size": picam2.sensor_resolution})
+preview_config = picam2.create_still_configuration(raw={"size": picam2.sensor_resolution})
 print(preview_config)
 picam2.configure(preview_config)
 
@@ -14,3 +14,6 @@ time.sleep(2)
 raw = picam2.capture_array("raw")
 print(raw.shape)
 print(picam2.stream_configuration("raw"))
+print(raw)
+picam2.stop()
+print(picam2.sensor_modes)
