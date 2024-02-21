@@ -112,3 +112,114 @@ At Resolution: (4056, 3040), Avg. filesize: 0.0, Mode: raw, Comment:
 Frames: 30, Seconds: 6.75, FPS: 4.45, Mbps: 878.88
 At Resolution: (4056, 3040), Avg. filesize: 24709248.0, Mode: raw, Comment: 
 
+Frames: 3, Seconds: 0.58, FPS: 5.19, Mbps: 0.00
+At Resolution: (4056, 3040), Avg. filesize: 0.0, Mode: raw, Comment: 
+
+Frames: 3, Seconds: 0.57, FPS: 5.27, Mbps: 0.00
+At Resolution: (4056, 3040), Avg. filesize: 0.0, Mode: raw, Comment: 
+
+Frames: 30, Seconds: 6.32, FPS: 4.75, Mbps: 0.00
+At Resolution: (4056, 3040), Avg. filesize: 0.0, Mode: raw, Comment: 
+
+Frames: 30, Seconds: 6.54, FPS: 4.58, Mbps: 0.00
+At Resolution: (4056, 3040), Avg. filesize: 0.0, Mode: raw, Comment: 
+
+Frames: 30, Seconds: 6.34, FPS: 4.73, Mbps: 0.00
+At Resolution: (4056, 3040), Avg. filesize: 0.0, Mode: raw, Comment: 
+
+Frames: 30, Seconds: 6.34, FPS: 4.73, Mbps: 0.00
+At Resolution: (4056, 3040), Avg. filesize: 0.0, Mode: raw, Comment: 
+
+Frames: 30, Seconds: 2.23, FPS: 13.46, Mbps: 0.00
+At Resolution: (2028, 1520), Avg. filesize: 0.0, Mode: raw, Comment: 
+
+Frames: 30, Seconds: 2.92, FPS: 10.29, Mbps: 0.00
+At Resolution: (2028, 1080), Avg. filesize: 0.0, Mode: raw, Comment: 
+
+Frames: 30, Seconds: 1.73, FPS: 17.38, Mbps: 0.00
+At Resolution: (1332, 990), Avg. filesize: 0.0, Mode: raw, Comment: 
+
+Frames: 30, Seconds: 3.06, FPS: 9.81, Mbps: 208.93
+At Resolution: (1332, 990), Avg. filesize: 2661248.0, Mode: raw, Comment: 
+
+Frames: 30, Seconds: 38.74, FPS: 0.77, Mbps: 153.06
+At Resolution: (4056, 3040), Avg. filesize: 24709248.0, Mode: raw, Comment: 
+
+Frames: 30, Seconds: 38.68, FPS: 0.78, Mbps: 153.32
+At Resolution: (4056, 3040), Avg. filesize: 24709248.0, Mode: raw, Comment: 
+
+Frames: 30, Seconds: 3.48, FPS: 8.61, Mbps: 183.36
+At Resolution: (1332, 990), Avg. filesize: 2661248.0, Mode: raw, Comment: 
+
+Frames: 30, Seconds: 3.53, FPS: 8.51, Mbps: 181.11
+At Resolution: (1332, 990), Avg. filesize: 2661248.0, Mode: raw, Comment: 
+
+Frames: 30, Seconds: 3.48, FPS: 8.63, Mbps: 183.79
+At Resolution: (1332, 990), Avg. filesize: 2661248.0, Mode: raw, Comment: 
+
+Frames: 30, Seconds: 3.38, FPS: 8.89, Mbps: 189.24
+At Resolution: (1332, 990), Avg. filesize: 2661248.0, Mode: raw, Comment: 
+
+Frames: 30, Seconds: 2.50, FPS: 12.01, Mbps: 255.63
+At Resolution: (1332, 990), Avg. filesize: 2661248.0, Mode: raw, Comment: 
+
+Frames: 30, Seconds: 2.94, FPS: 10.20, Mbps: 217.15
+At Resolution: (1332, 990), Avg. filesize: 2661248.0, Mode: raw, Comment: 
+
+Frames: 30, Seconds: 3.05, FPS: 9.85, Mbps: 209.73
+At Resolution: (1332, 990), Avg. filesize: 2661248.0, Mode: raw, Comment: 
+
+Frames: 30, Seconds: 3.78, FPS: 7.93, Mbps: 168.89
+At Resolution: (1332, 990), Avg. filesize: 2661248.0, Mode: raw, Comment: 
+
+Frames: 10, Seconds: 12.77, FPS: 0.78, Mbps: 154.83
+At Resolution: (4056, 3040), Avg. filesize: 24709248.0, Mode: raw, Comment: 
+
+Frames: 10, Seconds: 1.14, FPS: 8.80, Mbps: 1739.52
+At Resolution: (4056, 3040), Avg. filesize: 24709248.0, Mode: raw, Comment: 
+
+Frames: 10, Seconds: 0.26, FPS: 38.82, Mbps: 7674.59
+At Resolution: (1332, 990), Avg. filesize: 24709248.0, Mode: raw, Comment: 
+
+Frames: 10, Seconds: 0.47, FPS: 21.37, Mbps: 4223.87
+At Resolution: (1332, 990), Avg. filesize: 24709248.0, Mode: raw, Comment: 
+
+Frames: 10, Seconds: 0.65, FPS: 15.40, Mbps: 3043.22
+At Resolution: (1332, 990), Avg. filesize: 24709248.0, Mode: raw, Comment: 
+
+Frames: 10, Seconds: 0.47, FPS: 21.45, Mbps: 4241.01
+At Resolution: (1332, 990), Avg. filesize: 24709248.0, Mode: raw, Comment: 
+
+Frames: 10, Seconds: 0.47, FPS: 21.31, Mbps: 4213.19
+At Resolution: (1332, 990), Avg. filesize: 24709248.0, Mode: raw, Comment: 
+
+Frames: 10, Seconds: 0.26, FPS: 38.06, Mbps: 7522.76
+At Resolution: (1332, 990), Avg. filesize: 24709248.0, Mode: raw, Comment: 
+
+Frames: 10, Seconds: 0.35, FPS: 28.18, Mbps: 5570.58
+At Resolution: (1332, 990), Avg. filesize: 24709248.0, Mode: raw, Comment: 
+
+Frames: 10, Seconds: 0.38, FPS: 26.16, Mbps: 5171.14
+At Resolution: (1332, 990), Avg. filesize: 24709248.0, Mode: raw, Comment: 
+
+Frames: 10, Seconds: 0.26, FPS: 37.93, Mbps: 7498.60
+At Resolution: (1332, 990), Avg. filesize: 24709248.0, Mode: raw, Comment: 
+
+Frames: 10, Seconds: 1.14, FPS: 8.74, Mbps: 1727.00
+At Resolution: (4056, 3040), Avg. filesize: 24709248.0, Mode: raw, Comment: 
+
+Frames: 10, Seconds: 1.14, FPS: 8.74, Mbps: 1726.98
+At Resolution: (4056, 3040), Avg. filesize: 24709248.0, Mode: raw, Comment: 
+
+Frames: 10, Seconds: 13.24, FPS: 0.76, Mbps: 149.26
+At Resolution: (4056, 3040), Avg. filesize: 24709248.0, Mode: raw, Comment: 
+
+Frames: 10, Seconds: 1.14, FPS: 8.77, Mbps: 1733.83
+At Resolution: (4056, 3040), Avg. filesize: 24709248.0, Mode: raw, Comment: Speed without saving 
+
+Frames: 10, Seconds: 1.15, FPS: 8.72, Mbps: 1723.32
+At Resolution: (4056, 3040), Avg. filesize: 24709248.0, Mode: raw, Comment: Speed without saving 
+
+Frames: 10, Seconds: 1.14, FPS: 8.74, Mbps: 1727.55
+At Resolution: (4056, 3040), Avg. filesize: 24709248.0, Mode: raw, Comment: Speed without saving 
+

@@ -12,11 +12,11 @@ original_stdout = sys.stdout
 #Camera config
 cam = Picamera2()
 directory = "pics"
-num_pictures = 30
-name : str = "pics/image{:03d}.npy"
+num_pictures = 10
+name : str = "/home/pi/hypso3-camera-bachelor/picamtests/pics/image{:03d}.npy"
 resolution = (4056, 3040)
 mode = "raw"
-comment = ""
+comment = "Speed without saving "
 
 
 
@@ -24,9 +24,11 @@ cam_modes = cam.sensor_modes
 cam_mode = cam_modes[3] 
 
 jpg_config = cam.create_still_configuration({"size": resolution})
-dng_config = cam.create_still_configuration(raw = {'format': 'SRGGB12'}, sensor = {'output_size': cam_mode['size'], 'bit_depth': cam_mode['bit_depth']})
+raw_config = cam.create_still_configuration(buffer_count = 2, raw = {'format': 'SRGGB12'}, sensor = {'output_size': cam_mode['size'], 'bit_depth': cam_mode['bit_depth']})
 
-cam.configure(dng_config) #change this
+cam.configure(raw_config) # Raw configuration
+#cam.configure(jpg_config) # JPG configuration
+
 print(cam.camera_configuration()['raw'])
 
 #Capture images
@@ -36,10 +38,10 @@ starttime = time.time()
 
 
 for i in range(num_pictures):
-    #cam.capture_file(name.format(i), name = "raw")
+    #cam.capture_file(name.format(i), name = "raw") # Capture DNG/JPG
     
-    raw = cam.capture_array("raw")
-    #save(name.format(i), raw)
+    raw = cam.capture_array("raw") # Capture raw array
+    #save(name.format(i), raw) # Save raw files
     if i == num_pictures - 1:
         break
 
@@ -53,14 +55,16 @@ totime = endtime - starttime
 #Calculate filesizes
 size = 0
 count = 0
-for i in range(num_pictures):
-    filepath = name.format(i)
+
+if os.path.exists(name.format(0)):
+    for i in range(num_pictures):
+        filepath = name.format(i)
     
-    if not os.path.islink(filepath):
-        size += os.path.getsize(filepath)
-        count +=1
-        if count >= num_pictures:
-            break
+        if not os.path.islink(filepath):
+            size += os.path.getsize(filepath)
+            count +=1
+            if count >= num_pictures:
+                break
 
 #Log results
 
