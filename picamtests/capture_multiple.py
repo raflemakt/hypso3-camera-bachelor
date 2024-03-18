@@ -2,7 +2,7 @@ from picamera2 import Picamera2, Preview
 import time
 import os
 import sys
-from numpy import savetxt, save
+import numpy
 
 #Logging
 log_file_path = "/home/pi/hypso3-camera-bachelor/picamtests/image_info_log.txt"
@@ -12,16 +12,16 @@ original_stdout = sys.stdout
 #Camera config
 cam = Picamera2()
 directory = "pics"
-num_pictures = 10
+num_pictures = 30
 name : str = "/home/pi/hypso3-camera-bachelor/picamtests/pics/image{:03d}.npy"
 resolution = (4056, 3040)
 mode = "raw"
-comment = "Speed without saving "
+comment = "dng"
 
 
 
 cam_modes = cam.sensor_modes
-cam_mode = cam_modes[3] 
+cam_mode = cam_modes[0]
 
 jpg_config = cam.create_still_configuration({"size": resolution})
 raw_config = cam.create_still_configuration(buffer_count = 2, raw = {'format': 'SRGGB12'}, sensor = {'output_size': cam_mode['size'], 'bit_depth': cam_mode['bit_depth']})
@@ -39,9 +39,8 @@ starttime = time.time()
 
 for i in range(num_pictures):
     #cam.capture_file(name.format(i), name = "raw") # Capture DNG/JPG
-    
     raw = cam.capture_array("raw") # Capture raw array
-    #save(name.format(i), raw) # Save raw files
+    #numpy.save(name.format(i), raw) # Save raw files
     if i == num_pictures - 1:
         break
 
@@ -78,5 +77,9 @@ with open(log_file_path, "a") as log_file:
     sys.stdout = log_file
     print(msg, file=log_file)
     sys.stdout = original_stdout
+ 
+#raw = raw.view(numpy.uint16)
+#numpy.savetxt(raw_file_path, raw, fmt='%d', delimiter =',')
+#print(numpy.shape(raw))
 
 
