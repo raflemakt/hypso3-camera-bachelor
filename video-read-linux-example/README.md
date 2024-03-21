@@ -1,0 +1,8 @@
+# V4L2 example from the Linux Kernel Docs
+Usage
+´´´
+make
+make img
+´´´
+
+Tested on Gunnar's Linux laptop (Thinkpad E595)
