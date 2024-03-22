@@ -10,5 +10,9 @@ img:
 	./$(BINARY) -o > $(IMGFILE)
 	viewnior $(IMGFILE)
 
+debug:
+	gcc $(SOURCES) -g -o $(BINARY)
+	gdb $(BINARY)
+
 clean:
 	rm -f $(BINARY) $(IMGFILE)
