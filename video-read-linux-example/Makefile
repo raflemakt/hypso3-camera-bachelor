@@ -1,9 +1,13 @@
+IMGFILE=test_image.jpeg
+BIN=capture
+SRC=capture.c
+
 all:
-	gcc capture_example_linux.c -o example
+	gcc $(SRC) -o $(BIN)
 
 img:
-	./example -o > test_image.jpeg
-	viewnior test_image.jpeg
+	./$(BIN) -o > $(IMGFILE)
+	viewnior $(IMGFILE)
 
 clean:
-	rm -f example test_image.jpeg
+	rm -f $(BIN) $(IMGFILE)
