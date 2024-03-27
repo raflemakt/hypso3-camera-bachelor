@@ -1,155 +1,232 @@
-#include <errno.h>
+/*
+ *  V4L2 video capture example
+ *
+ *  This program can be used and distributed without restrictions.
+ *
+ *      This program is provided with the V4L2 API
+ * see https://linuxtv.org/docs.php for more information
+ */
+
 #include <stdio.h>
-#include <fcntl.h>
-#include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
+
+#include <getopt.h>             /* getopt_long() */
+
+#include <fcntl.h>              /* low-level i/o */
+#include <unistd.h>
+#include <errno.h>
 #include <sys/stat.h>
+#include <sys/types.h>
+#include <sys/time.h>
 #include <sys/mman.h>
 #include <sys/ioctl.h>
-#include <sys/types.h>
+
 #include <linux/videodev2.h>
 
 #define CLEAR(x) memset(&(x), 0, sizeof(x))
 
-
-const int WIDTH = 1280;
-const int HEIGHT = 720;
-
-
 struct buffer {
-    void* start;
-    size_t length;
+        void   *start;
+        size_t  length;
 };
 
-struct buffer* buffers;
-unsigned int n_buffers;
+static char            *dev_name;
+static int              fd = -1;
+struct buffer          *buffers;
+static unsigned int     n_buffers;
+static int              frame_count = 1;
 
+static void errno_exit(const char *s)
+{
+        fprintf(stderr, "%s error %d, %s\\n", s, errno, strerror(errno));
+        exit(EXIT_FAILURE);
+}
 
-static int xioctl(int fh, int request, void *arg) {
-    int r;
+static int xioctl(int fh, int request, void *arg)
+{
+        int r;
 
-    do {
-	    r = ioctl(fh, request, arg);
-    } while (-1 == r && EINTR == errno);
+        do {
+                r = ioctl(fh, request, arg);
+        } while (-1 == r && EINTR == errno);
 
-    return r;
+        return r;
 }
 
 
-int main(int argc, char** argv) {
-    // Open device
-    int fd = open("/dev/video0", O_RDWR | O_NONBLOCK, 0);
-
-    // Query device for its capabilities
-    struct v4l2_capability cap;
-    struct v4l2_cropcap cropcap;
-    struct v4l2_crop crop;
-    struct v4l2_format fmt;
-
-    (void) xioctl(fd, VIDIOC_QUERYCAP, &cap);
-    CLEAR(cropcap);
-    cropcap.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-    (void) xioctl(fd, VIDIOC_S_CROP, &cropcap);
-    crop.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-    crop.c = cropcap.defrect;
-    (void) xioctl(fd, VIDIOC_S_CROP, &crop);
-
-    CLEAR(fmt);
-    fmt.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-    fmt.fmt.pix.width = WIDTH;
-    fmt.fmt.pix.height = HEIGHT;
-    fmt.fmt.pix.pixelformat = V4L2_PIX_FMT_YUYV;
-    fmt.fmt.pix.field = V4L2_FIELD_INTERLACED;
-    (void) xioctl(fd, VIDIOC_S_FMT, &fmt);
-
-    // Init device. Here we choose the MMAP way
-    struct v4l2_requestbuffers req;
-    CLEAR(req);
-    req.count = 4;
-    req.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-    req.memory = V4L2_MEMORY_MMAP;
-    (void) xioctl(fd, VIDIOC_REQBUFS, &req);
-
-    buffers = calloc(req.count, sizeof(*buffers));
-    
-    for (n_buffers = 0; n_buffers < req.count; ++n_buffers) {
+static int read_frame(void)
+{
         struct v4l2_buffer buf;
-        CLEAR(buf);
-        buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-        buf.memory = V4L2_MEMORY_MMAP;
-        buf.index = n_buffers;
-        (void) xioctl(fd, VIDIOC_QUERYBUF, &buf);
-        buffers[n_buffers].length = buf.length;
-        buffers[n_buffers].start = mmap(NULL,
-                buf.length,
-                PROT_READ | PROT_WRITE,
-                MAP_SHARED,
-                fd, buf.m.offset);
-    }
-
-    // Start capture
-    enum v4l2_buf_type type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-
-    for (int i = 0; i < n_buffers; ++i) {
-        struct v4l2_buffer buf;
-        CLEAR(buf);
-        buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-        buf.memory = V4L2_MEMORY_MMAP;
-        buf.index = i;
-        (void) xioctl(fd, VIDIOC_QBUF, &buf);
-    }
-    (void) xioctl(fd, VIDIOC_STREAMON, &type);
-    
-    // (trenger kanskje noe fra "mainloop" her)
-    unsigned int count = 4;
-    struct v4l2_buffer buf;
-    while (count-- > 0) {
-        fd_set fds;
-        struct timeval tv;
-        int r;
-        FD_ZERO(&fds);
-        FD_SET(fd, &fds);
-        tv.tv_sec = 2;
-        tv.tv_usec = 0;
-        r = select(fd + 1, &fds, NULL, NULL, &tv);
-        if (-1 == r) {
-            if (EINTR == errno)
-                continue;
-        }
-
-        // Read frame
+        unsigned int i;
         CLEAR(buf);
         buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
         buf.memory = V4L2_MEMORY_MMAP;
         (void) xioctl(fd, VIDIOC_DQBUF, &buf);
-    }
-
-
-
-    // Process image
-    for (int i = 0; i < req.count; i++) {
-        fwrite(buffers[i].start, buf.bytesused, 1, stdout);
+        assert(buf.index < n_buffers);
+        fwrite(buffers[buf.index].start, buf.bytesused, 1, stdout);
         fflush(stderr);
+        fprintf(stderr, ".");
         fflush(stdout);
-    }
+        (void) xioctl(fd, VIDIOC_QBUF, &buf);
+        return 1;
+}
 
-    (void) xioctl(fd, VIDIOC_QBUF, &buf);
 
-    // Stop capturing
-    (void) xioctl(fd, VIDIOC_STREAMOFF, &type);
 
-    /*
-    // Uninit device
-    for (int i = 0; i < req.count; i++) {
-        (void) munmap(buffers[i].start, buffers[i].length);
-    }
-    */
+int main(int argc, char **argv)
+{
+        dev_name = "/dev/video0";
 
-    // Close device
-    (void) close(fd);
+        /* OPEN DEVICE */
+        struct stat st;
+        fd = open(dev_name, O_RDWR /* required */ | O_NONBLOCK, 0);
 
-    //printf("\nIt's over mister Frodo\n");
+        /* INIT DEVICE */
+        {
+        struct v4l2_capability cap;
+        struct v4l2_cropcap cropcap;
+        struct v4l2_crop crop;
+        struct v4l2_format fmt;
+        unsigned int min;
 
-    return 0;
+        (void) xioctl(fd, VIDIOC_QUERYCAP, &cap);
+
+        /* Select video input, video standard and tune here. */
+
+        CLEAR(cropcap);
+
+        cropcap.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+
+        (void) xioctl(fd, VIDIOC_CROPCAP, &cropcap);
+        crop.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+        crop.c = cropcap.defrect; /* reset to default */
+
+        CLEAR(fmt);
+
+        fmt.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+        fmt.fmt.pix.width       = 1280;
+        fmt.fmt.pix.height      = 720;
+        fmt.fmt.pix.field       = V4L2_FIELD_INTERLACED;
+        (void) xioctl(fd, VIDIOC_S_FMT, &fmt);
+
+
+        /* INIT MMAP */
+        struct v4l2_requestbuffers req;
+
+        CLEAR(req);
+
+        req.count = 4;
+        req.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+        req.memory = V4L2_MEMORY_MMAP;
+
+        (void) xioctl(fd, VIDIOC_REQBUFS, &req);
+
+        buffers = calloc(req.count, sizeof(*buffers));
+
+        for (n_buffers = 0; n_buffers < req.count; ++n_buffers) {
+                struct v4l2_buffer buf;
+
+                CLEAR(buf);
+
+                buf.type        = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+                buf.memory      = V4L2_MEMORY_MMAP;
+                buf.index       = n_buffers;
+
+                (void) xioctl(fd, VIDIOC_QUERYBUF, &buf);
+
+                buffers[n_buffers].length = buf.length;
+                buffers[n_buffers].start =
+                        mmap(NULL /* start anywhere */,
+                              buf.length,
+                              PROT_READ | PROT_WRITE /* required */,
+                              MAP_SHARED /* recommended */,
+                              fd, buf.m.offset);
+
+                if (MAP_FAILED == buffers[n_buffers].start)
+                        errno_exit("mmap");
+        }
+        }
+
+
+
+        /* START CAPTURING */
+        enum v4l2_buf_type type;
+
+        for (unsigned int i = 0; i < n_buffers; ++i) {
+                struct v4l2_buffer buf;
+
+                CLEAR(buf);
+                buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+                buf.memory = V4L2_MEMORY_MMAP;
+                buf.index = i;
+
+                (void) xioctl(fd, VIDIOC_QBUF, &buf);
+        }
+        type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+        (void) xioctl(fd, VIDIOC_STREAMON, &type);
+
+
+
+        /* MAIN LOOP */
+        {
+        unsigned int count;
+
+        count = frame_count;
+
+        while (count-- > 0) {
+                for (;;) {
+                        fd_set fds;
+                        struct timeval tv;
+                        int r;
+
+                        FD_ZERO(&fds);
+                        FD_SET(fd, &fds);
+
+                        /* Timeout. */
+                        tv.tv_sec = 2;
+                        tv.tv_usec = 0;
+
+                        r = select(fd + 1, &fds, NULL, NULL, &tv);
+
+                        if (-1 == r) {
+                                if (EINTR == errno)
+                                        continue;
+                                errno_exit("select");
+                        }
+
+                        if (0 == r) {
+                                fprintf(stderr, "select timeout\\n");
+                                exit(EXIT_FAILURE);
+                        }
+
+                        if (read_frame())
+                                break;
+                        /* EAGAIN - continue select loop. */
+                }
+        }
+        }
+
+
+
+        /* STOP CAPTURING */
+        (void) xioctl(fd, VIDIOC_STREAMOFF, &type);
+
+
+        /* UNINIT DEVICE */
+        for (unsigned int i = 0; i < n_buffers; ++i)
+                if (-1 == munmap(buffers[i].start, buffers[i].length))
+                        errno_exit("munmap");
+        free(buffers);
+
+
+        /* CLOSE DEVICE */
+        if (-1 == close(fd))
+                errno_exit("close");
+        fd = -1;
+
+
+        fprintf(stderr, "\\n");
+        return 0;
 }
